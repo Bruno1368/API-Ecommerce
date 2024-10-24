@@ -24,6 +24,7 @@ public class Cliente {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "endereco_id")
     private Endereco endereco;
+    private Boolean ativo = true;
 
     public static Cliente toEntity(DtoCliente dtoCliente){
         Cliente cliente = new Cliente();
