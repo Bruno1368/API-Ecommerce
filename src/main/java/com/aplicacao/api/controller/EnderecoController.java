@@ -1,6 +1,8 @@
 package com.aplicacao.api.controller;
 
 import com.aplicacao.api.dto.DtoEndereco;
+import com.aplicacao.api.dto.DtoEnderecoReponse;
+import com.aplicacao.api.response.CustomResponse;
 import com.aplicacao.api.service.EnderecoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +18,8 @@ public class EnderecoController {
 
     @Autowired
     EnderecoService service;
-
-    @PostMapping("criar")
-    public ResponseEntity<HttpStatus> criaEndereco(@Valid @RequestBody DtoEndereco endereco){
-        service.criarEndereco(endereco);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    @PostMapping("/criar/{id}")
+    public ResponseEntity<CustomResponse<DtoEnderecoReponse>> criaEndereco(@Valid @PathVariable Long id, @RequestBody DtoEndereco endereco){
+        return service.criarEndereco(endereco, id);
     }
 }

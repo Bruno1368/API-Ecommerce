@@ -42,7 +42,15 @@ public class ClienteService {
 
     }
 
-    public ResponseEntity<CustomResponse<DtoClienteResponse>> atualizarCliente(DtoAtualizaCliente dtoAtualizaCliente) {
+    public ResponseEntity<CustomResponse<DtoClienteResponse>> atualizarCliente(DtoAtualizaCliente dtoAtualizaCliente, Long id) {
+        Optional<Cliente> clienteRecuperado = repository.findById(id);
+        if(!clienteRecuperado.isPresent()){
+            throw new NoSuchElementException();
+        }
+        Cliente cliente = clienteRecuperado.get();
+        cliente.atualizaDados(dtoAtualizaCliente);
+        repository.save(cliente);
 
+        return ResponseEntity.ok().body(new CustomResponse<>(new DtoClienteResponse(cliente), null));
     }
 }

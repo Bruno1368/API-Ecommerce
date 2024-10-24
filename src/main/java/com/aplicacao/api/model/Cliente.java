@@ -36,24 +36,15 @@ public class Cliente {
         return cliente;
     }
 
-    public static Cliente atualziaCliente(DtoAtualizaCliente atualizaCliente){
-        Cliente cliente = new Cliente();
+    public void atualizaDados(DtoAtualizaCliente atualizaCliente){
         if(atualizaCliente.nome() != null){
-            cliente.setNome(atualizaCliente.nome());
+            this.nome = atualizaCliente.nome();
         }
         if(atualizaCliente.email() != null){
-            cliente.setEmail(atualizaCliente.email());
+            this.email = atualizaCliente.email();
         }
         if(atualizaCliente.endereco() != null){
-            if(atualizaCliente.endereco().cidade() != null){
-                cliente.endereco.setCidade(atualizaCliente.endereco().cidade());
-            }
-            if(atualizaCliente.endereco().nomeRua() != null){
-                cliente.endereco.setNomeRua(atualizaCliente.endereco().nomeRua());
-            }
-            if(atualizaCliente.endereco().uf() != null){
-                cliente.endereco.setUf(atualizaCliente.endereco().uf());
-            }
+            endereco.atualizaDados(atualizaCliente.endereco());
         }
     }
 }

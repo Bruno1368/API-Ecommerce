@@ -28,9 +28,9 @@ public class ClienteController {
         return service.pegarCliente(id);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/atualiza/{id}")
     @Transactional
-    public ResponseEntity<CustomResponse<DtoClienteResponse>> atualizarDado(@PathVariable @RequestBody DtoAtualizaCliente dtoAtualizaCliente){
-        return service.atualizarCliente(dtoAtualizaCliente);
+    public ResponseEntity<CustomResponse<DtoClienteResponse>> atualizarCliente(@PathVariable Long id, @RequestBody DtoAtualizaCliente dtoAtualizaCliente){
+        return service.atualizarCliente(dtoAtualizaCliente, id);
     }
 }
