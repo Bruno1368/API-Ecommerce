@@ -1,5 +1,6 @@
 package com.aplicacao.api.model;
 
+import com.aplicacao.api.controller.DtoAtualizaCliente;
 import com.aplicacao.api.dto.DtoCliente;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -33,5 +34,26 @@ public class Cliente {
             cliente.setEndereco(Endereco.toEntity(dtoCliente.endereco()));
         }
         return cliente;
+    }
+
+    public static Cliente atualziaCliente(DtoAtualizaCliente atualizaCliente){
+        Cliente cliente = new Cliente();
+        if(atualizaCliente.nome() != null){
+            cliente.setNome(atualizaCliente.nome());
+        }
+        if(atualizaCliente.email() != null){
+            cliente.setEmail(atualizaCliente.email());
+        }
+        if(atualizaCliente.endereco() != null){
+            if(atualizaCliente.endereco().cidade() != null){
+                cliente.endereco.setCidade(atualizaCliente.endereco().cidade());
+            }
+            if(atualizaCliente.endereco().nomeRua() != null){
+                cliente.endereco.setNomeRua(atualizaCliente.endereco().nomeRua());
+            }
+            if(atualizaCliente.endereco().uf() != null){
+                cliente.endereco.setUf(atualizaCliente.endereco().uf());
+            }
+        }
     }
 }
