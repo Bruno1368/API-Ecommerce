@@ -1,4 +1,4 @@
-package com.aplicacao.api.controller;
+package com.aplicacao.api.dto;
 
 import com.aplicacao.api.dto.DtoEndereco;
 

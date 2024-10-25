@@ -1,6 +1,6 @@
 package com.aplicacao.api.model;
 
-import com.aplicacao.api.controller.DtoAtualizaCliente;
+import com.aplicacao.api.dto.DtoAtualizaCliente;
 import com.aplicacao.api.dto.DtoCliente;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -47,5 +47,9 @@ public class Cliente {
         if(atualizaCliente.endereco() != null){
             endereco.atualizaDados(atualizaCliente.endereco());
         }
+    }
+
+    public void excluirCliente() {
+        setAtivo(false);
     }
 }

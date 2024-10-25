@@ -1,6 +1,6 @@
 package com.aplicacao.api.service;
 
-import com.aplicacao.api.controller.DtoAtualizaCliente;
+import com.aplicacao.api.dto.DtoAtualizaCliente;
 import com.aplicacao.api.dto.DtoCliente;
 import com.aplicacao.api.dto.DtoClienteResponse;
 import com.aplicacao.api.model.Cliente;
@@ -11,8 +11,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ClienteService {
@@ -52,5 +54,22 @@ public class ClienteService {
         repository.save(cliente);
 
         return ResponseEntity.ok().body(new CustomResponse<>(new DtoClienteResponse(cliente), null));
+    }
+
+    public ResponseEntity<CustomResponse<DtoClienteResponse>> excluir(Long id) {
+        Optional<Cliente> clienteRecuperado = repository.findById(id);
+        if(!clienteRecuperado.isPresent()){
+            throw new NoSuchElementException();
+        }
+        Cliente cliente = clienteRecuperado.get();
+        cliente.excluirCliente();
+        repository.save(cliente);
+        return ResponseEntity.ok().body(new CustomResponse<>(null, "Cliente excluído com sucesso"));
+    }
+
+    public ResponseEntity<List<CustomResponse<DtoClienteResponse>>> pegarClientes() {
+        List<Cliente> clientes = repository.findAllByAtivoTrue();
+        List<CustomResponse<DtoClienteResponse>> response = clientes.stream().map(c -> new DtoClienteResponse(c)).map(dtoCliente -> new CustomResponse<>(dtoCliente, null)).collect(Collectors.toList());
+        return ResponseEntity.ok().body(response);
     }
 }
