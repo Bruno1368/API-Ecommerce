@@ -7,6 +7,8 @@ import com.aplicacao.api.model.Cliente;
 import com.aplicacao.api.repository.ClienteRepository;
 import com.aplicacao.api.response.CustomResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -34,7 +36,7 @@ public class ClienteService {
     }
 
 
-    public ResponseEntity<CustomResponse<DtoClienteResponse>> pegarCliente(Long id) {
+    public ResponseEntity<CustomResponse<DtoClienteResponse>> cliente(Long id) {
         Optional<Cliente> clienteRecuperado = repository.findById(id);
         if(!clienteRecuperado.isPresent()){
             throw new NoSuchElementException();
@@ -67,9 +69,32 @@ public class ClienteService {
         return ResponseEntity.ok().body(new CustomResponse<>(null, "Cliente excluído com sucesso"));
     }
 
-    public ResponseEntity<List<CustomResponse<DtoClienteResponse>>> pegarClientes() {
-        List<Cliente> clientes = repository.findAllByAtivoTrue();
-        List<CustomResponse<DtoClienteResponse>> response = clientes.stream().map(c -> new DtoClienteResponse(c)).map(dtoCliente -> new CustomResponse<>(dtoCliente, null)).collect(Collectors.toList());
+    public ResponseEntity<Page<CustomResponse<DtoClienteResponse>>>todosClientes(Pageable paginacao) {
+        Page<Cliente> clientesPage = repository.findAll(paginacao);
+        var response = clientesPage.map(c -> new DtoClienteResponse(c)).map(dtoCliente -> new CustomResponse<>(dtoCliente, null));
         return ResponseEntity.ok().body(response);
+    }
+
+    public ResponseEntity<Page<CustomResponse<DtoClienteResponse>>> clientesAtivos(Pageable paginacao) {
+        Page<Cliente> clientesPage = repository.findAllByAtivoTrue(paginacao);
+        var response = clientesPage.map(c -> new DtoClienteResponse(c)).map(dtoCliente -> new CustomResponse<>(dtoCliente, null));
+        return ResponseEntity.ok().body(response);
+
+    }
+
+    public ResponseEntity<Page<CustomResponse<DtoClienteResponse>>> clientesInativos(Pageable page) {
+        Page<Cliente> clientesPage = repository.findAllByAtivoFalse(page);
+        var response = clientesPage.map(c -> new DtoClienteResponse(c)).map(dtoCliente -> new CustomResponse<>(dtoCliente, null));
+        return ResponseEntity.ok().body(response);
+    }
+
+
+    public ResponseEntity<CustomResponse<DtoClienteResponse>> clientesPorEmail(String email) {
+         Optional<Cliente> clienteOptional = repository.findByEmail(email);
+         if(!clienteOptional.isPresent()){
+             throw new NoSuchElementException();
+         }
+         Cliente cliente = clienteOptional.get();
+         return ResponseEntity.ok().body(new CustomResponse<>(new DtoClienteResponse(cliente), null));
     }
 }

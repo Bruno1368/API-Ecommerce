@@ -1,5 +1,6 @@
 package com.aplicacao.api.model;
 
+import com.aplicacao.api.dto.DtoAtualizaEndereco;
 import com.aplicacao.api.dto.DtoEndereco;
 import com.aplicacao.api.validator.NormalizaString;
 import jakarta.persistence.*;
@@ -39,7 +40,7 @@ public class Endereco {
         return endereco;
     }
 
-    public void atualizaDados(DtoEndereco endereco) {
+    public void atualizaDados(DtoAtualizaEndereco endereco) {
         if(endereco.nomeRua() != null){
             this.nomeRua = NormalizaString.primeiraLetraMaiusculo(endereco.nomeRua());
         }
