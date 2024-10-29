@@ -23,7 +23,9 @@ public class Pagamento {
     private Long id;
     @OneToOne(mappedBy = "pagamento", cascade = CascadeType.ALL)
     private Venda venda;
+    @Enumerated(EnumType.STRING)
     private Status status;
+    @Enumerated(EnumType.STRING)
     private MetodoPagamento metodo_pagamento;
     private BigDecimal valor;
 

@@ -19,12 +19,13 @@ public class ItemVenda {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
-    @JoinColumn(name = "produto_id")
+    @JoinColumn(name = "produto")
     private Produto produto;
     @ManyToOne
-    @JoinColumn(name = "venda_id")
+    @JoinColumn(name = "venda")
     private Venda venda;
-    private int quantidade;
+    private Integer quantidade;
+    private Double valorUnitario;
 
 
 }
