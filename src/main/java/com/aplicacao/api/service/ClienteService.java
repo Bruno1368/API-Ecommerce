@@ -32,7 +32,7 @@ public class ClienteService {
             repository.save(cliente);
             return ResponseEntity.status(HttpStatus.CREATED).body(new CustomResponse<>(clienteResponse, "Cliente criado com sucesso"));
         }
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new CustomResponse<>(null, "Cliente já cadastrado"));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new CustomResponse<>(null, "Cliente já cadastrado"));
     }
 
 
