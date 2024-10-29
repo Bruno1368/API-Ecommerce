@@ -9,13 +9,12 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "Pagamento")
-@Table(name = "Pagamentos")
+@Table(name = "pagamentos")
 public class Pagamento {
 
     @Id
