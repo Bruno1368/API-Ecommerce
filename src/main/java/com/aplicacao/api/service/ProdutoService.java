@@ -49,4 +49,25 @@ public class ProdutoService {
         repository.save(produto);
         return ResponseEntity.ok().body(new CustomResponse<>(new DtoProdutoResponse(produto), null));
     }
+
+    public ResponseEntity<CustomResponse<DtoProdutoResponse>> deletaProduto(Long id) {
+        Optional<Produto> produtoOptional = repository.findById(id);
+        if(!produtoOptional.isPresent()){
+            throw new NoSuchElementException();
+        }
+        var produto = produtoOptional.get();
+        repository.delete(produto);
+        return ResponseEntity.ok().body(new CustomResponse<>(null,"Produto deletado com sucesso" ));
+    }
+
+    public ResponseEntity<CustomResponse<DtoProdutoResponse>> produtoPorId(Long id) {
+        Optional<Produto> produtoOptional = repository.findById(id);
+        if(!produtoOptional.isPresent()){
+            throw new NoSuchElementException();
+        }
+        var response = new DtoProdutoResponse(produtoOptional.get());
+
+        return ResponseEntity.ok().body(new CustomResponse<>(response, null));
+
+    }
 }

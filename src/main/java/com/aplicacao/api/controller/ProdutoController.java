@@ -21,7 +21,7 @@ public class ProdutoController {
     @Autowired
     ProdutoService service;
 
-    @PostMapping("cadastrar")
+    @PostMapping("/cadastrar")
     @Transactional
     public ResponseEntity<CustomResponse> cadastrar(@Valid @RequestBody DtoProduto dtoProduto){
         return service.cadastrarProduto(dtoProduto);
@@ -32,10 +32,28 @@ public class ProdutoController {
         return service.todosProdutos(pageable);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<CustomResponse<DtoProdutoResponse>> produto(@PathVariable Long id){
+        return service.produtoPorId(id);
+    }
+
+    @PutMapping("{id}")
+    @Transactional
+    public ResponseEntity<CustomResponse<DtoProdutoResponse>> atualizaEstoque(@RequestBody DtoAtualizaEstoque dtoAtualizaEstoque){
+
+    }
+
+
     @PutMapping("/{id}")
     @Transactional
     public ResponseEntity<CustomResponse<DtoProdutoResponse>> atualizar(@PathVariable Long id, @RequestBody DtoAlteraProduto dtoAlteraProduto){
         return service.atualizaProduto(id, dtoAlteraProduto);
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity<CustomResponse<DtoProdutoResponse>> deletar(@PathVariable Long id){
+        return service.deletaProduto(id);
     }
 
 
