@@ -1,18 +1,20 @@
 package com.aplicacao.api.service;
 
+import com.aplicacao.api.Specification.ProductSpecification;
 import com.aplicacao.api.dto.*;
 import com.aplicacao.api.model.Produto;
 import com.aplicacao.api.repository.ProdutoRepository;
 import com.aplicacao.api.response.CustomResponse;
+import jdk.dynalink.linker.LinkerServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class ProdutoService {
@@ -43,7 +45,7 @@ public class ProdutoService {
         Produto produto = produtoOptional.get();
         produto.atualizaDados(dtoAlteraProduto);
         repository.save(produto);
-        return ResponseEntity.ok().body(new CustomResponse<>(new DtoProdutoResponse(produto), null));
+        return ResponseEntity.ok().body(new CustomResponse<>(new DtoProdutoResponse(produto), "Produto atualizado"));
     }
 
     public ResponseEntity<CustomResponse<DtoProdutoResponse>> deletaProduto(Long id) {
@@ -52,8 +54,10 @@ public class ProdutoService {
             throw new NoSuchElementException();
         }
         var produto = produtoOptional.get();
-        repository.delete(produto);
-        return ResponseEntity.ok().body(new CustomResponse<>(null,"Produto deletado com sucesso" ));
+        produto.desativar();
+        repository.save(produto);
+        
+        return ResponseEntity.ok().body(new CustomResponse<>(null, "Produto desativado"));
     }
 
     public ResponseEntity<CustomResponse<DtoProdutoResponse>> produtoPorId(Long id) {
@@ -67,7 +71,7 @@ public class ProdutoService {
 
     }
 
-    public ResponseEntity<CustomResponse<DtoProdutoResponse>> atualizaEstoque(Long id, Integer novoEstoque ) {
+    public ResponseEntity<CustomResponse<DtoProdutoResponse>> atualizaEstoque(Long id, DtoNovoEstoque novoEstoque ) {
         Optional<Produto> produtoOptional = repository.findById(id);
         if(!produtoOptional.isPresent()){
             throw new NoSuchElementException();
@@ -85,5 +89,30 @@ public class ProdutoService {
         }
         var response = new DtoProdutoResponse(produtoOptional.get());
         return ResponseEntity.ok().body(new CustomResponse<>(response, null));
+    }
+
+    public ResponseEntity<Page<CustomResponse<DtoProdutoResponse>>> produtosAtivos(Pageable pageable) {
+       Page<Produto> produtosPage = repository.findAllByAtivoTrue(pageable);
+       var response = produtosPage.map(DtoProdutoResponse::new).map(dtoProdutoResponse -> new CustomResponse<>(dtoProdutoResponse, null));
+       
+       return ResponseEntity.ok().body(response);
+    }
+
+    public ResponseEntity<Page<CustomResponse<DtoProdutoResponse>>> produtosInativos(Pageable pageable) {
+      Page<Produto> produtoPage = repository.findAllByAtivoFalse(pageable);
+      var response = produtoPage.map(DtoProdutoResponse::new).map(dtoProduto -> new CustomResponse<>(dtoProduto, null));
+      return ResponseEntity.ok().body(response);
+    }
+
+    public ResponseEntity<Page<CustomResponse<DtoProdutoResponse>>> buscarProdutos(String nome, Double precoMin, Double precoMax, Pageable pageable) {
+        Specification<Produto> spec = Specification.where(ProductSpecification.nomeContains(nome))
+                .and(ProductSpecification.precoGreaterThanEqual(precoMin))
+                .and(ProductSpecification.precoLessThanEqual(precoMax));
+
+        Page<Produto> produtoPage = repository.findAll(spec, pageable);
+        var response = produtoPage.map(DtoProdutoResponse::new).map(dto -> new CustomResponse<>(dto, null));
+
+        return ResponseEntity.ok().body(response);
+
     }
 }

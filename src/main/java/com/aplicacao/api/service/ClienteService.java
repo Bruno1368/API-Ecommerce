@@ -55,7 +55,7 @@ public class ClienteService {
         cliente.atualizaDados(dtoAtualizaCliente);
         repository.save(cliente);
 
-        return ResponseEntity.ok().body(new CustomResponse<>(new DtoClienteResponse(cliente), null));
+        return ResponseEntity.ok().body(new CustomResponse<>(new DtoClienteResponse(cliente), "Cliente atualizado"));
     }
 
     public ResponseEntity<CustomResponse<DtoClienteResponse>> excluir(Long id) {
@@ -64,7 +64,7 @@ public class ClienteService {
             throw new NoSuchElementException();
         }
         Cliente cliente = clienteRecuperado.get();
-        cliente.excluirCliente();
+        cliente.desativar();
         repository.save(cliente);
         return ResponseEntity.ok().body(new CustomResponse<>(null, "Cliente excluído com sucesso"));
     }

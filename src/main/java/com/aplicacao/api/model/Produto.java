@@ -1,6 +1,7 @@
 package com.aplicacao.api.model;
 
 import com.aplicacao.api.dto.DtoAlteraProduto;
+import com.aplicacao.api.dto.DtoNovoEstoque;
 import com.aplicacao.api.dto.DtoProduto;
 import com.aplicacao.api.validator.NormalizaString;
 import jakarta.persistence.*;
@@ -25,6 +26,7 @@ public class Produto {
     private Integer estoque;
     @Column(name = "codigo_produto")
     private String codigoProduto;
+    private Boolean ativo = true;
 
 
     public static Produto toEntity(DtoProduto dtoProduto){
@@ -57,8 +59,11 @@ public class Produto {
         return this.nome;
     }
 
+    public void atualizarEstoque(DtoNovoEstoque novoEstoque) {
+        this.setEstoque(novoEstoque.estoque());
+    }
 
-    public void atualizarEstoque(Integer novoEstoque) {
-        this.setEstoque(novoEstoque);
+    public void desativar() {
+         setAtivo(false);
     }
 }

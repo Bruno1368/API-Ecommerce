@@ -50,7 +50,7 @@ public class Cliente {
         }
     }
 
-    public void excluirCliente() {
+    public void desativar() {
         setAtivo(false);
     }
 }

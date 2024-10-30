@@ -1,6 +1,7 @@
 package com.aplicacao.api.controller;
 
 import com.aplicacao.api.dto.DtoAlteraProduto;
+import com.aplicacao.api.dto.DtoNovoEstoque;
 import com.aplicacao.api.dto.DtoProduto;
 import com.aplicacao.api.dto.DtoProdutoResponse;
 import com.aplicacao.api.response.CustomResponse;
@@ -38,24 +39,42 @@ public class ProdutoController {
     }
 
     @GetMapping("/codigo/{codigoProduto}")
-    public ResponseEntity<CustomResponse<DtoProdutoResponse>> produtoPorCodigo(@RequestParam String codigoProduto){
+    public ResponseEntity<CustomResponse<DtoProdutoResponse>> produtoPorCodigo(@PathVariable String codigoProduto){
         return service.produtoPorCodigo(codigoProduto);
     }
 
-    @PutMapping("/{id}")
-    @Transactional
-    public ResponseEntity<CustomResponse<DtoProdutoResponse>> atualizaEstoque(@RequestParam Long id, @RequestBody Integer novoEstoque){
-        return service.atualizaEstoque(id, novoEstoque);
+    @GetMapping("/ativos")
+    public ResponseEntity<Page<CustomResponse<DtoProdutoResponse>>> produtosAtivos(@PageableDefault(size = 10, sort = "nome") Pageable pageable){
+        return service.produtosAtivos(pageable);
+    }
+
+    @GetMapping("/inativos")
+    public ResponseEntity<Page<CustomResponse<DtoProdutoResponse>>> produtosInativos(@PageableDefault(size = 10, sort = "nome") Pageable pageable){
+        return service.produtosInativos(pageable);
+    }
+
+    @GetMapping("/buscar")
+    public ResponseEntity<Page<CustomResponse<DtoProdutoResponse>>> buscarProdutos(
+            @RequestParam(required = false) String nome,
+            @RequestParam(required = false) Double precoMin,
+            @RequestParam(required = false) Double precoMax,
+            @PageableDefault(size = 10, sort = "nome") Pageable pageable) {
+            return service.buscarProdutos(nome, precoMin, precoMax, pageable);
     }
 
     @PutMapping("/{id}/estoque")
+    @Transactional
+    public ResponseEntity<CustomResponse<DtoProdutoResponse>> atualizaEstoque(@PathVariable Long id, @RequestBody DtoNovoEstoque dtoNovoEstoque){
+        return service.atualizaEstoque(id, dtoNovoEstoque);
+    }
+
+    @PutMapping("/{id}")
     @Transactional
     public ResponseEntity<CustomResponse<DtoProdutoResponse>> atualizar(@PathVariable Long id, @RequestBody DtoAlteraProduto dtoAlteraProduto){
         return service.atualizaProduto(id, dtoAlteraProduto);
     }
 
     @DeleteMapping("/{id}")
-    @Transactional
     public ResponseEntity<CustomResponse<DtoProdutoResponse>> deletar(@PathVariable Long id){
         return service.deletaProduto(id);
     }
