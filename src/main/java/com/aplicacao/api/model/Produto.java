@@ -58,4 +58,7 @@ public class Produto {
     }
 
 
+    public void atualizarEstoque(Integer novoEstoque) {
+        this.setEstoque(novoEstoque);
+    }
 }

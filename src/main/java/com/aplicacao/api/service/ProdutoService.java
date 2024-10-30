@@ -1,9 +1,6 @@
 package com.aplicacao.api.service;
 
-import com.aplicacao.api.dto.DtoAlteraProduto;
-import com.aplicacao.api.dto.DtoEnderecoReponse;
-import com.aplicacao.api.dto.DtoProduto;
-import com.aplicacao.api.dto.DtoProdutoResponse;
+import com.aplicacao.api.dto.*;
 import com.aplicacao.api.model.Produto;
 import com.aplicacao.api.repository.ProdutoRepository;
 import com.aplicacao.api.response.CustomResponse;
@@ -22,7 +19,6 @@ public class ProdutoService {
 
     @Autowired
     ProdutoRepository repository;
-
 
     public ResponseEntity<CustomResponse> cadastrarProduto(DtoProduto dtoProduto) {
         Produto produto = Produto.toEntity(dtoProduto);
@@ -69,5 +65,25 @@ public class ProdutoService {
 
         return ResponseEntity.ok().body(new CustomResponse<>(response, null));
 
+    }
+
+    public ResponseEntity<CustomResponse<DtoProdutoResponse>> atualizaEstoque(Long id, Integer novoEstoque ) {
+        Optional<Produto> produtoOptional = repository.findById(id);
+        if(!produtoOptional.isPresent()){
+            throw new NoSuchElementException();
+        }
+        var produto = produtoOptional.get();
+        produto.atualizarEstoque(novoEstoque);
+
+        return ResponseEntity.ok().body(new CustomResponse<>(new DtoProdutoResponse(produto), "Estoque atualizado"));
+    }
+
+    public ResponseEntity<CustomResponse<DtoProdutoResponse>> produtoPorCodigo(String codigoProduto) {
+        Optional<Produto> produtoOptional = repository.findByCodigoProduto(codigoProduto);
+        if(!produtoOptional.isPresent()){
+            throw new NoSuchElementException();
+        }
+        var response = new DtoProdutoResponse(produtoOptional.get());
+        return ResponseEntity.ok().body(new CustomResponse<>(response, null));
     }
 }

@@ -33,18 +33,22 @@ public class ProdutoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CustomResponse<DtoProdutoResponse>> produto(@PathVariable Long id){
+    public ResponseEntity<CustomResponse<DtoProdutoResponse>> produtoPorId(@PathVariable Long id){
         return service.produtoPorId(id);
     }
 
-    @PutMapping("{id}")
-    @Transactional
-    public ResponseEntity<CustomResponse<DtoProdutoResponse>> atualizaEstoque(@RequestBody DtoAtualizaEstoque dtoAtualizaEstoque){
-
+    @GetMapping("/codigo/{codigoProduto}")
+    public ResponseEntity<CustomResponse<DtoProdutoResponse>> produtoPorCodigo(@RequestParam String codigoProduto){
+        return service.produtoPorCodigo(codigoProduto);
     }
 
-
     @PutMapping("/{id}")
+    @Transactional
+    public ResponseEntity<CustomResponse<DtoProdutoResponse>> atualizaEstoque(@RequestParam Long id, @RequestBody Integer novoEstoque){
+        return service.atualizaEstoque(id, novoEstoque);
+    }
+
+    @PutMapping("/{id}/estoque")
     @Transactional
     public ResponseEntity<CustomResponse<DtoProdutoResponse>> atualizar(@PathVariable Long id, @RequestBody DtoAlteraProduto dtoAlteraProduto){
         return service.atualizaProduto(id, dtoAlteraProduto);
