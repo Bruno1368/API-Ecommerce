@@ -54,13 +54,23 @@ public class ProdutoController {
     }
 
     @GetMapping("/buscar")
-    public ResponseEntity<Page<CustomResponse<DtoProdutoResponse>>> buscarProdutos(
+    public ResponseEntity<Page<CustomResponse<DtoProdutoResponse>>> produtosFiltro(
             @RequestParam(required = false) String nome,
             @RequestParam(required = false) Double precoMin,
             @RequestParam(required = false) Double precoMax,
             @PageableDefault(size = 10, sort = "nome") Pageable pageable) {
             return service.buscarProdutos(nome, precoMin, precoMax, pageable);
     }
+
+    @GetMapping("/ordenar")
+    public ResponseEntity<Page<CustomResponse<DtoProdutoResponse>>> produtosOrdenados(
+            @RequestParam(defaultValue = "nome") String sort,
+            @RequestParam(required = false) Boolean asc,
+            @RequestParam(required = false) Boolean desc,
+            @PageableDefault(size = 10) Pageable pageable) {
+        return service.produtosOrdenados(sort, asc, desc, pageable);
+    }
+
 
     @PutMapping("/{id}/estoque")
     @Transactional
@@ -74,9 +84,10 @@ public class ProdutoController {
         return service.atualizaProduto(id, dtoAlteraProduto);
     }
 
-    @DeleteMapping("/{id}")
+    @PatchMapping("/{id}/desativar")
+    @Transactional
     public ResponseEntity<CustomResponse<DtoProdutoResponse>> deletar(@PathVariable Long id){
-        return service.deletaProduto(id);
+        return service.desativaProduto(id);
     }
 
 

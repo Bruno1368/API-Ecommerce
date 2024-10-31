@@ -8,7 +8,9 @@ import com.aplicacao.api.response.CustomResponse;
 import jdk.dynalink.linker.LinkerServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,7 +50,7 @@ public class ProdutoService {
         return ResponseEntity.ok().body(new CustomResponse<>(new DtoProdutoResponse(produto), "Produto atualizado"));
     }
 
-    public ResponseEntity<CustomResponse<DtoProdutoResponse>> deletaProduto(Long id) {
+    public ResponseEntity<CustomResponse<DtoProdutoResponse>> desativaProduto(Long id) {
         Optional<Produto> produtoOptional = repository.findById(id);
         if(!produtoOptional.isPresent()){
             throw new NoSuchElementException();
@@ -114,5 +116,26 @@ public class ProdutoService {
 
         return ResponseEntity.ok().body(response);
 
+    }
+
+    public ResponseEntity<Page<CustomResponse<DtoProdutoResponse>>> produtosOrdenados(String sort, Boolean asc, Boolean desc,Pageable pageable) {
+
+        Sort sortOrder = null;
+
+        if(Boolean.TRUE.equals(asc) && Boolean.TRUE.equals(desc)){
+            throw new IllegalArgumentException("Escolha apenas uma direção de ordenação: asc ou desc");
+        }else if(Boolean.TRUE.equals(asc)){
+            sortOrder = Sort.by(Sort.Direction.ASC, sort);
+        }else if(Boolean.TRUE.equals(desc)){
+            sortOrder = Sort.by(Sort.Direction.DESC, sort);
+        }else{
+            sortOrder = Sort.by(sort);
+        }
+
+        Pageable sortedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sortOrder);
+        Page<Produto> produtoPage = repository.findAll(sortedPageable);
+        var response = produtoPage.map(DtoProdutoResponse::new).map(dtoProduto -> new CustomResponse<>(dtoProduto, null));
+
+        return ResponseEntity.ok().body(response);
     }
 }

@@ -19,9 +19,5 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long>, JpaSpec
 
     Page<Produto> findAllByAtivoFalse(Pageable pageable);
 
-    Page<Produto> findByNome(String nome, Pageable pageable);
 
-    Page<Produto> findAllByPrecoGreaterThanEqual(Double precoMin, Pageable pageable);
-
-    Page<Produto> findAllByPrecoLessThanEqual(Double precoMax, Pageable pageable);
 }
