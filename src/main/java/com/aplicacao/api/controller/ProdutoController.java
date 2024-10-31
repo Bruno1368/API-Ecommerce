@@ -8,12 +8,14 @@ import com.aplicacao.api.response.CustomResponse;
 import com.aplicacao.api.service.ProdutoService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 @RestController
 @RequestMapping("produtos")
@@ -36,6 +38,7 @@ public class ProdutoController {
     @GetMapping("/{id}")
     public ResponseEntity<CustomResponse<DtoProdutoResponse>> produtoPorId(@PathVariable Long id){
         return service.produtoPorId(id);
+
     }
 
     @GetMapping("/codigo/{codigoProduto}")
