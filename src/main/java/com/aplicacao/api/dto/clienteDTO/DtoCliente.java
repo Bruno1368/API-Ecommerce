@@ -1,4 +1,5 @@
-package com.aplicacao.api.dto;
+package com.aplicacao.api.dto.clienteDTO;
+import com.aplicacao.api.dto.enderecoDTO.DtoEndereco;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;

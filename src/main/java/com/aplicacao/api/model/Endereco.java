@@ -1,7 +1,7 @@
 package com.aplicacao.api.model;
 
-import com.aplicacao.api.dto.DtoAtualizaEndereco;
-import com.aplicacao.api.dto.DtoEndereco;
+import com.aplicacao.api.dto.enderecoDTO.DtoAtualizaEndereco;
+import com.aplicacao.api.dto.enderecoDTO.DtoEndereco;
 import com.aplicacao.api.validator.NormalizaString;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

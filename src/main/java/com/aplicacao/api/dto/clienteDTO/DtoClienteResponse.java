@@ -1,4 +1,4 @@
-package com.aplicacao.api.dto;
+package com.aplicacao.api.dto.clienteDTO;
 
 import com.aplicacao.api.model.Cliente;
 

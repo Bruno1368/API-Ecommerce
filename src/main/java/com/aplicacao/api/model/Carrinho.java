@@ -1,36 +1,29 @@
 package com.aplicacao.api.model;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "Venda")
-@Table(name = "vendas")
-public class Venda {
+@Entity(name = "Carrinho")
+@Table(name = "carrinhos")
+public class Carrinho {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDate data;
-    @OneToOne
-    @JoinColumn(name = "carrinho_id")
-    private Carrinho carrinho;
-    @OneToOne
-    @JoinColumn(name = "pagamento_id")
-    private Pagamento pagamento;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "carrinho", fetch = FetchType.LAZY)
+    private List<ItemCarrinho> itensCarrinho;
+
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
-    @Column(name = "valor_total")
-    private BigDecimal valorTotal;
-
-
 }

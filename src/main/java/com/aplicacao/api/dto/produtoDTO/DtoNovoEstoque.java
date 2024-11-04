@@ -1,4 +1,4 @@
-package com.aplicacao.api.dto;
+package com.aplicacao.api.dto.produtoDTO;
 
 import jakarta.validation.constraints.PositiveOrZero;
 

@@ -1,13 +1,15 @@
 package com.aplicacao.api.model;
 
-import com.aplicacao.api.dto.DtoAtualizaCliente;
-import com.aplicacao.api.dto.DtoCliente;
+import com.aplicacao.api.dto.clienteDTO.DtoAtualizaCliente;
+import com.aplicacao.api.dto.clienteDTO.DtoCliente;
 import com.aplicacao.api.validator.NormalizaString;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -26,6 +28,8 @@ public class Cliente {
     @JoinColumn(name = "endereco_id")
     private Endereco endereco;
     private Boolean ativo = true;
+    @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
+    private List<Venda> vendas;
 
     public static Cliente toEntity(DtoCliente dtoCliente){
         Cliente cliente = new Cliente();

@@ -1,21 +1,19 @@
 package com.aplicacao.api.controller;
 
-import com.aplicacao.api.dto.DtoAlteraProduto;
-import com.aplicacao.api.dto.DtoNovoEstoque;
-import com.aplicacao.api.dto.DtoProduto;
-import com.aplicacao.api.dto.DtoProdutoResponse;
+import com.aplicacao.api.dto.produtoDTO.DtoAlteraProduto;
+import com.aplicacao.api.dto.produtoDTO.DtoNovoEstoque;
+import com.aplicacao.api.dto.produtoDTO.DtoProduto;
+import com.aplicacao.api.dto.produtoDTO.DtoProdutoResponse;
 import com.aplicacao.api.response.CustomResponse;
 import com.aplicacao.api.service.ProdutoService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 @RestController
 @RequestMapping("produtos")

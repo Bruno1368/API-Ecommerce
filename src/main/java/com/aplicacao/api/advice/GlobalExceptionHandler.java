@@ -15,7 +15,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(NoSuchElementException.class)
     public ResponseEntity<CustomResponse> handleNoSuchElementException(NoSuchElementException e){
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomResponse(null, "Elemento não encontrado"));
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomResponse(null, e.getMessage()));
     }
 
     @ExceptionHandler(IllegalArgumentException.class)

@@ -1,8 +1,8 @@
 package com.aplicacao.api.controller;
 
-import com.aplicacao.api.dto.DtoAtualizaCliente;
-import com.aplicacao.api.dto.DtoCliente;
-import com.aplicacao.api.dto.DtoClienteResponse;
+import com.aplicacao.api.dto.clienteDTO.DtoAtualizaCliente;
+import com.aplicacao.api.dto.clienteDTO.DtoCliente;
+import com.aplicacao.api.dto.clienteDTO.DtoClienteResponse;
 import com.aplicacao.api.response.CustomResponse;
 import com.aplicacao.api.service.ClienteService;
 import com.aplicacao.api.validator.ValidaEmail;
@@ -14,8 +14,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("clientes")

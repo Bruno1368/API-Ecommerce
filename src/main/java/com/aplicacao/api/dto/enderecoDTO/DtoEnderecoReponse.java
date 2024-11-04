@@ -1,4 +1,4 @@
-package com.aplicacao.api.dto;
+package com.aplicacao.api.dto.enderecoDTO;
 
 import com.aplicacao.api.model.Endereco;
 import com.aplicacao.api.model.UF;

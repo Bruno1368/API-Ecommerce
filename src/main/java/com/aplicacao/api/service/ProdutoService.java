@@ -1,11 +1,13 @@
 package com.aplicacao.api.service;
 
 import com.aplicacao.api.Specification.ProductSpecification;
-import com.aplicacao.api.dto.*;
+import com.aplicacao.api.dto.produtoDTO.DtoAlteraProduto;
+import com.aplicacao.api.dto.produtoDTO.DtoNovoEstoque;
+import com.aplicacao.api.dto.produtoDTO.DtoProduto;
+import com.aplicacao.api.dto.produtoDTO.DtoProdutoResponse;
 import com.aplicacao.api.model.Produto;
 import com.aplicacao.api.repository.ProdutoRepository;
 import com.aplicacao.api.response.CustomResponse;
-import jdk.dynalink.linker.LinkerServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

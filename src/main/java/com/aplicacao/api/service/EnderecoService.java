@@ -1,8 +1,8 @@
 package com.aplicacao.api.service;
 
-import com.aplicacao.api.dto.DtoAtualizaEndereco;
-import com.aplicacao.api.dto.DtoEndereco;
-import com.aplicacao.api.dto.DtoEnderecoReponse;
+import com.aplicacao.api.dto.enderecoDTO.DtoAtualizaEndereco;
+import com.aplicacao.api.dto.enderecoDTO.DtoEndereco;
+import com.aplicacao.api.dto.enderecoDTO.DtoEnderecoReponse;
 import com.aplicacao.api.model.Cliente;
 import com.aplicacao.api.model.Endereco;
 import com.aplicacao.api.repository.ClienteRepository;
@@ -11,7 +11,6 @@ import com.aplicacao.api.response.CustomResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 

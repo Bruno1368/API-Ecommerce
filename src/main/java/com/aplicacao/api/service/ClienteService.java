@@ -1,8 +1,8 @@
 package com.aplicacao.api.service;
 
-import com.aplicacao.api.dto.DtoAtualizaCliente;
-import com.aplicacao.api.dto.DtoCliente;
-import com.aplicacao.api.dto.DtoClienteResponse;
+import com.aplicacao.api.dto.clienteDTO.DtoAtualizaCliente;
+import com.aplicacao.api.dto.clienteDTO.DtoCliente;
+import com.aplicacao.api.dto.clienteDTO.DtoClienteResponse;
 import com.aplicacao.api.model.Cliente;
 import com.aplicacao.api.repository.ClienteRepository;
 import com.aplicacao.api.response.CustomResponse;
@@ -13,10 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class ClienteService {

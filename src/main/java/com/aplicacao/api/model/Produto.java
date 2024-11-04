@@ -1,8 +1,8 @@
 package com.aplicacao.api.model;
 
-import com.aplicacao.api.dto.DtoAlteraProduto;
-import com.aplicacao.api.dto.DtoNovoEstoque;
-import com.aplicacao.api.dto.DtoProduto;
+import com.aplicacao.api.dto.produtoDTO.DtoAlteraProduto;
+import com.aplicacao.api.dto.produtoDTO.DtoNovoEstoque;
+import com.aplicacao.api.dto.produtoDTO.DtoProduto;
 import com.aplicacao.api.validator.NormalizaString;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -65,5 +65,12 @@ public class Produto {
 
     public void desativar() {
          setAtivo(false);
+    }
+
+    public boolean estoquePositivo() {
+        if(this.getEstoque() > 0){
+            return true;
+        }
+        return false;
     }
 }
